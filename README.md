@@ -1,4 +1,4 @@
-# Sms Owl Meteor.js Wrapper
+## Sms Owl Meteor.js Wrapper
 
 This package is wrapper of Sms Owl REST API hosted at [https://smsowl.in](https://smsowl.in). Sms Owl provides transactional and promotional SMS Gateway services.
 
@@ -39,7 +39,7 @@ Credentials should be configured before sending SMS. Please enter the credintial
         }
 
 
-##### sendPromotionalSms(senderId,to,message,callback)
+##### sendPromotionalSms(senderId,to,message)
 
 Same as above but smsType defaults to `normal`
 
