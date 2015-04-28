@@ -1,6 +1,6 @@
 Package.describe({
     name: 'mahoujas:smsowl',
-    version: '0.0.1',
+    version: '1.0.0',
     summary: 'Wrapper for smsowl.in REST API.',
     git: 'https://github.com/mahoujas/smsowl-meteor.git',
     documentation: ''
