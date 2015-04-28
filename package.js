@@ -3,7 +3,7 @@ Package.describe({
     version: '1.0.0',
     summary: 'Wrapper for smsowl.in REST API.',
     git: 'https://github.com/mahoujas/smsowl-meteor.git',
-    documentation: ''
+    documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
