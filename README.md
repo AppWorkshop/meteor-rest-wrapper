@@ -38,6 +38,7 @@ Credentials should be configured before sending SMS. Please enter the credintial
             //handle error
         }
 
+The `response` will contain SMS id for single SMS sent or array of SMS ids for bulk SMS sent.
 
 ##### sendPromotionalSms(senderId,to,message)
 
@@ -65,25 +66,4 @@ Lets assume templateId of `39ec9de0efa8a48cb6e60ee5` with following template.
         console.log(JSON.stringify(error));
     }
 
-### Return object structure
-
-On success for single SMS sent the following object returned
-
-	{
-	    "status": "success",
-	    "smsId": "79fee3193f5fd8f828737527"
-	}
-
-
-
-On success for bulk SMS sent the following object returned
-
-	{
-	    "status": "success",
-	    "smsIds": [
-	        "79fee3193f5fd8f828737527",
-	        "af93998f580162afe8b7d031",
-	        "3190d3b8d782f0ce7acfb1cf",
-	        "a2d107d4a6ac8769aeeff2ab"
-	    ]
-	}
+The `response` will contain SMS id.

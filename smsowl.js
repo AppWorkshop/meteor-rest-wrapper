@@ -29,7 +29,7 @@ function sendPromotionalSms(senderId,to,message,smsType){
         var response = HTTP.post(url, {
             data: postData
         });
-        return response.data;
+        return Array.isArray(to) ?  response.data.smsIds : response.data.smsId;
     }catch(error){
         throw error;
     }
@@ -56,7 +56,7 @@ function sendTransactionalSms(senderId,to,templateId,placeholders){
         var response = HTTP.post(url, {
             data: postData
         });
-        return response.data;
+        return response.data.smsId;
     }catch(error){
         throw error;
     }
