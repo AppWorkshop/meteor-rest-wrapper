@@ -1,4 +1,4 @@
-var url = "https://smsowl.in/api/v1/sms";
+var url = "https://api.smsowl.in/v1/sms";
 
 function sendPromotionalSms(senderId,to,message,smsType){
 
