@@ -1,20 +1,20 @@
 Package.describe({
-    name: 'mahoujas:smsowl',
+    name: 'appworkshop:rest-api-wrapper',
     version: '1.1.0',
-    summary: 'Wrapper for smsowl.in REST API.',
-    git: 'https://github.com/mahoujas/smsowl-meteor.git',
+    summary: 'Wrapper for REST APIs.',
+    git: 'https://github.com/AppWorkshop/rest-api-wrapper.git',
     documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
     api.versionsFrom('1.1.0.2');
-    api.use("http", "server");
-    api.addFiles('smsowl.js',"server");
-    api.export('SmsOwl', 'server');
+    api.use(["http","underscore"], "server");
+    api.addFiles('rest-client.js',"server");
+    api.export('RestEndpoints', 'server');
 });
 
 Package.onTest(function(api) {
     api.use('tinytest');
-    api.use('mahoujas:smsowl');
-    api.addFiles('smsowl-tests.js');
+    api.use('appworkshop:rest-api-wrapper', 'server');
+    api.addFiles('rest-api-wrapper-tests.js', 'server');
 });
