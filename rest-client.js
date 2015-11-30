@@ -6,12 +6,13 @@
 var restEndpointFunction = function(restEndpoint) {
   /**
    * Make the REST call. If the request was not successful, an error is thrown.
-   * @param {object} params The HTTP FORM parameters i.e. name: value pairs.
+   * @param {object|string} params Either: an object containing HTTP FORM parameters i.e. name: value pairs; or
+   *                                      if a string is provided, it is appended to the URL.
    * @param {function} asyncCallback an optional asynchronous callback; if passed, the method runs asynchronously. receives two arguments, error and result. The error argument will contain an Error if the request fails in any way, including a network error, time-out, or an HTTP status code in the 400 or 500 range. In case of a 4xx/5xx HTTP status code, the response property on error matches the contents of the result object. When run in synchronous mode, either result is returned from the function, or error is thrown. Contents of the result object:
    *    <li>statusCode Number Numeric HTTP result status code, or null on error.</li>
-   * <li>content String The body of the HTTP response as a string.</li>
-   * <li>data Object or null If the response headers indicate JSON content, this contains the body of the document parsed as a JSON object.</li>
-   * <li>headers Object:    A dictionary of HTTP headers from the response.</li>
+   *    <li>content String The body of the HTTP response as a string.</li>
+   *    <li>data Object or null If the response headers indicate JSON content, this contains the body of the document parsed as a JSON object.</li>
+   *    <li>headers Object:    A dictionary of HTTP headers from the response.</li>
    * @returns {any}
    */
   var performRestCall = function (params, asyncCallback) {
@@ -35,9 +36,20 @@ var restEndpointFunction = function(restEndpoint) {
     var additionalFormData = restEndpoint.additionalFormData || {};
     var extendedParams = _.extend(additionalFormData, params);
 
+    // we can specify a special _ID_ parameter name to use as an ID in our params.
+    // first, save its value
+    var id, url = restEndpoint.endpoint;
+    if (extendedParams._ID_) {
+      id = extendedParams._ID_ ;
+      // append it to our URL
+      url = url + "/" + id;
+      // omit it from the other params.
+      extendedParams = _.omit(extendedParams, '_ID_');
+    }
+
+
     var callOptions = {
       params: extendedParams,
-      auth: restEndpoint.auth.username + ":" + restEndpoint.auth.password,
       timeout: timeout,
       followRedirects: followRedirects
     };
@@ -50,11 +62,15 @@ var restEndpointFunction = function(restEndpoint) {
       callOptions.npmRequestOptions = npmRequestOptions;
     }
 
+    if (restEndpoint.auth) {
+      callOptions.auth = restEndpoint.auth.username + ":" + restEndpoint.auth.password;
+    }
+
     if (asyncCallback) {
-      HTTP.call(restEndpoint.httpMethod, restEndpoint.endpoint, callOptions, asyncCallback);
+      HTTP.call(restEndpoint.httpMethod, url, callOptions, asyncCallback);
     } else {
       // no async function, just return the result
-      var result = HTTP.call(restEndpoint.httpMethod, restEndpoint.endpoint, callOptions);
+      var result = HTTP.call(restEndpoint.httpMethod, url, callOptions);
       //console.log(result);
       return result;
     }

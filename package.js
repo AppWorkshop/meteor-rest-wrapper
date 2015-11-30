@@ -1,6 +1,6 @@
 Package.describe({
     name: 'appworkshop:rest-api-wrapper',
-    version: '1.0.0',
+    version: '1.0.1',
     summary: 'Wrapper for REST APIs.',
     git: 'https://github.com/AppWorkshop/rest-api-wrapper.git',
     documentation: 'README.md'
