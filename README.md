@@ -144,6 +144,24 @@ Here's how you can wrap a complete API.
       }
     },
     {
+      actionName: "getBasecampProjects",
+      httpMethod: "get",
+      endpoint: "https://3.basecampapi.com",
+      additionalHeaders: {
+        "User-Agent": "Company Name (http://your.company.url)",
+        "Authorization": "Bearer your-user-access-token-here"
+      }
+    },
+    {
+      actionName: "getAllTodosForProject",
+      httpMethod: "get",
+      endpoint: "https://3.basecampapi.com",
+      additionalHeaders: {
+        "User-Agent": "Company Name (http://your.company.url)",
+        "Authorization": "Bearer your-user-access-token-here"
+      }
+    },
+    {
       actionName: "updateSinglePostByID",
       httpMethod: "patch",
       endpoint: "http://jsonplaceholder.typicode.com/posts",
@@ -208,6 +226,19 @@ Here's how you can wrap a complete API.
 
   // delete a post
   var result = functionLibrary.deleteSinglePostByID({_ID_: 1});
+  
+  // append to the url
+  // the following will build the endpoint to 
+  // https://3.basecampapi.com/999999999/projects.json
+  var allProjects = functionLibrary.getBasecampProjects({
+  _ID_: 999999999,
+  _APPEND_TO_URL_: "projects.json"
+  });
+  
+  // completely replace the endpoint url
+  var getBasecampTodos = functionLibrary.getAllTodosForProject({
+  _OVERRIDE_URL_: "https://3.basecampapi.com/999999999/buckets/1/todolists/3/todos.json"
+  });
 ```
 
 TODO:

@@ -96,6 +96,24 @@ var endpointSettings = [
       customstring: "ClickSend will pass this back in the response"
     }
   },
+  {
+    actionName: "queryURL",
+    httpMethod: "get",
+    endpoint: "https://3.basecampapi.com",
+    additionalHeaders: {
+      "User-Agent": "Company Name (http://your.company.url)",
+      "Authorization": "Bearer your-user-access-token-here"
+    }
+  },
+  {
+    actionName: "appendToUrl",
+    httpMethod: "get",
+    endpoint: "http://jsonplaceholder.typicode.com/users",
+    auth: {
+      username: "myUsername",
+      password: "myPassword"
+    },
+  }
 ];
 
 Tinytest.add('INSERTPOST', function (test) {
@@ -179,6 +197,29 @@ Tinytest.add('DELETEONEPOST', function(test) {
 
   var onePost = functionLibrary.deleteSinglePostByID({_ID_: 1});
   test.equal(onePost.statusCode, 200, "Unexpected result for delete")
+});
+
+Tinytest.addAsync('OVERRIDE URL', function(test, onComplete) {
+  var functionLibrary = new RestEndpoints( endpointSettings );
+
+  functionLibrary.queryURL(
+      {_OVERRIDE_URL_: "https://3.basecampapi.com/999999999/projects.json"},
+      function (error, result) {
+        if (error) { console.log(error)}
+        if (result) {
+          if (result.statusCode === 404) {
+            onComplete();
+          }
+        }
+      } );
+});
+
+Tinytest.add('APPEND TO URL', function ( test ) {
+  var functionLibrary = new RestEndpoints(endpointSettings);
+
+  var appendToUrl = functionLibrary.appendToUrl({_ID_: 1, _APPEND_TO_URL_: "todos"});
+  test.length(appendToUrl.data, 20, "Unexpected number of todos for user");
+  test.equal(appendToUrl.data[0].title, 'delectus aut autem');
 });
 
 //Tinytest.addAsync('SMS', function (test, next){

@@ -38,7 +38,8 @@ var restEndpointFunction = function(restEndpoint) {
 
     // we can specify a special _ID_ parameter name to use as an ID in our params.
     // first, save its value
-    var id, url = restEndpoint.endpoint;
+    var id, appendToURL, url = restEndpoint.endpoint;
+
     if (extendedParams._ID_) {
       id = extendedParams._ID_ ;
       // append it to our URL
@@ -47,6 +48,22 @@ var restEndpointFunction = function(restEndpoint) {
       extendedParams = _.omit(extendedParams, '_ID_');
     }
 
+    if (extendedParams._APPEND_TO_URL_) {
+      appendToURL = extendedParams._APPEND_TO_URL_ ;
+      // append it to our URL
+      url = url + "/" + appendToURL;
+      // omit it from the other params.
+      extendedParams = _.omit(extendedParams, '_APPEND_TO_URL_');
+    }
+
+    if (extendedParams._OVERRIDE_URL_) {
+      // override our URL
+      url = extendedParams._OVERRIDE_URL_;
+      // omit it from the other params.
+      extendedParams = _.omit(extendedParams, '_OVERRIDE_URL_');
+    }
+
+    console.log(url);
 
     var callOptions = {
       params: extendedParams,
@@ -65,6 +82,8 @@ var restEndpointFunction = function(restEndpoint) {
     if (restEndpoint.auth) {
       callOptions.auth = restEndpoint.auth.username + ":" + restEndpoint.auth.password;
     }
+
+    console.log(callOptions);
 
     if (asyncCallback) {
       HTTP.call(restEndpoint.httpMethod, url, callOptions, asyncCallback);
