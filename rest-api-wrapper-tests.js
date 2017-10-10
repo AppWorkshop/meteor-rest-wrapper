@@ -112,7 +112,20 @@ var endpointSettings = [
     auth: {
       username: "myUsername",
       password: "myPassword"
+    }
+  },
+  {
+    actionName: "sendDataInsteadOfParams",
+    httpMethod: "post",
+    endpoint: "http://jsonplaceholder.typicode.com/posts",
+    auth: {
+      username: "myUsername",
+      password: "myPassword"
     },
+    additionalHeaders: {
+      "Authorization-Token": "123456789",
+      "Other-Header-Key": "Other-Header-Value"
+    }
   }
 ];
 
@@ -220,6 +233,20 @@ Tinytest.add('APPEND TO URL', function ( test ) {
   var appendToUrl = functionLibrary.appendToUrl({_ID_: 1, _APPEND_TO_URL_: "todos"});
   test.length(appendToUrl.data, 20, "Unexpected number of todos for user");
   test.equal(appendToUrl.data[0].title, 'delectus aut autem');
+});
+
+Tinytest.add('PARAMS AS DATA', function ( test ) {
+  var functionLibrary = new RestEndpoints(endpointSettings);
+
+  var params = {
+    title: 'foo',
+    body: 'bar',
+    userId: 1
+  };
+
+  var sendDataInsteadOfParams = functionLibrary.sendDataInsteadOfParams({_PARAMS_TO_DATA_: params});
+  test.equal(sendDataInsteadOfParams.data.title, 'foo');
+  test.equal(sendDataInsteadOfParams.data.body, 'bar');
 });
 
 //Tinytest.addAsync('SMS', function (test, next){

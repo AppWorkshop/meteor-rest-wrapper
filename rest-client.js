@@ -63,13 +63,16 @@ var restEndpointFunction = function(restEndpoint) {
       extendedParams = _.omit(extendedParams, '_OVERRIDE_URL_');
     }
 
-    console.log(url);
-
     var callOptions = {
       params: extendedParams,
       timeout: timeout,
       followRedirects: followRedirects
     };
+
+    if (extendedParams._PARAMS_TO_DATA_) {
+      callOptions = {};
+      callOptions.data = extendedParams._PARAMS_TO_DATA_;
+    }
 
     if (extraHeaders) {
       callOptions.headers = extraHeaders;
@@ -82,8 +85,6 @@ var restEndpointFunction = function(restEndpoint) {
     if (restEndpoint.auth) {
       callOptions.auth = restEndpoint.auth.username + ":" + restEndpoint.auth.password;
     }
-
-    console.log(callOptions);
 
     if (asyncCallback) {
       HTTP.call(restEndpoint.httpMethod, url, callOptions, asyncCallback);

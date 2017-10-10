@@ -186,7 +186,20 @@ Here's how you can wrap a complete API.
       auth: {
         username: "myUsername",
         password: "myPassword"
-      },
+      }
+    },
+    {
+       actionName: "sendDataInsteadOfParams",
+       httpMethod: "post",
+       endpoint: "http://jsonplaceholder.typicode.com/posts",
+       auth: {
+         username: "myUsername",
+         password: "myPassword"
+       },
+       additionalHeaders: {
+         "Authorization-Token": "123456789",
+         "Other-Header-Key": "Other-Header-Value"
+       }
     }
   ];
 
@@ -239,6 +252,15 @@ Here's how you can wrap a complete API.
   var getBasecampTodos = functionLibrary.getAllTodosForProject({
   _OVERRIDE_URL_: "https://3.basecampapi.com/999999999/buckets/1/todolists/3/todos.json"
   });
+  
+  // send given params as data: {} instead
+    var params = {
+      "title": "foo",
+      "body": "bar",
+      "userId": 1
+    };
+      
+    var sendDataInsteadOfParams = functionLibrary.sendDataInsteadOfParams({_PARAMS_TO_DATA_: params});
 ```
 
 TODO:
